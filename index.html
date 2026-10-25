@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Qualités humaines</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,400&display=swap">
+<style>
+/* Mise en page : en-tête éditorial, grille de mots, barre de validation fixe en bas */
+:root {
+  --bg: #f5f7f8; --surface: #ffffff; --ink: #18242b; --muted: #5d6c75; --line: #d5dde1;
+  --accent: #0d6b6e; --accent-ink: #ffffff; --accent-soft: #d9efee; --strike: #9aa7ae; --danger: #a63a2b;
+  --display: "Newsreader", Georgia, serif; --body: "Instrument Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11191d; --surface: #1a252b; --ink: #e6eef1; --muted: #93a3ab; --line: #2c3a41;
+  --accent: #5cc3c4; --accent-ink: #0b1b1d; --accent-soft: #1d3a3c; --strike: #647882; --danger: #e48a7b; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #11191d; --surface: #1a252b; --ink: #e6eef1; --muted: #93a3ab; --line: #2c3a41;
+  --accent: #5cc3c4; --accent-ink: #0b1b1d; --accent-soft: #1d3a3c; --strike: #647882; --danger: #e48a7b; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0; }
+main { max-width: 1040px; margin: 0 auto; padding-block: 32px 150px; }
+header { max-width: 62ch; margin-bottom: 24px; }
+.lead { font-size: 1.2rem; line-height: 1.45; color: var(--ink); margin: 0 0 16px; }
+.steps { margin: 0 0 16px; padding: 14px 16px 14px 36px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: var(--ink); font-size: 1rem; display: grid; gap: 6px; }
+.steps li::marker { color: var(--accent); font-weight: 600; }
+.note { font-size: .95rem; color: var(--muted); margin: 0; }
+h1 { font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; margin: 0 0 12px; text-wrap: balance; }
+.tools { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+.tools input[type=search] { flex: 1 1 220px; min-width: 0; }
+input[type=search], input[type=text] { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 6px; padding: 10px 12px; }
+input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+label.chk { display: flex; gap: 8px; align-items: center; font-size: .9rem; color: var(--muted); }
+#grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.w { display: flex; align-items: stretch; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.w .pick { flex: 1; min-width: 0; text-align: left; font: inherit; color: var(--ink); background: none; border: 0; padding: 10px 12px; cursor: pointer; border-radius: 6px 0 0 6px; overflow-wrap: anywhere; }
+.w .x { flex: none; width: 40px; font: inherit; font-size: 1.1rem; color: var(--muted); background: none; border: 0; border-left: 1px solid var(--line); cursor: pointer; border-radius: 0 6px 6px 0; }
+.w .pick:hover, .w .x:hover { background: var(--accent-soft); }
+.w.on { background: var(--accent); border-color: var(--accent); }
+.w.on .pick { color: var(--accent-ink); font-weight: 600; }
+.w.on .pick::before { content: "✓ "; }
+.w.on .x { color: var(--accent-ink); border-left-color: color-mix(in srgb, var(--accent-ink) 35%, transparent); }
+.w.on .pick:hover, .w.on .x:hover { background: transparent; }
+.w.off .pick { color: var(--strike); text-decoration: line-through; text-decoration-thickness: 2px; }
+.w.off .x { color: var(--accent); }
+.w.full:not(.on) .pick { opacity: .45; cursor: not-allowed; }
+@media (max-width: 560px) {
+  #grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .w .pick { padding: 9px 8px; font-size: .92rem; }
+  .w .x { width: 32px; }
+}
+.w[hidden] { display: none; }
+#bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line);
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); z-index: 5; }
+#bar .in { max-width: 1040px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
+.count { font-family: var(--display); font-size: 1.6rem; font-variant-numeric: tabular-nums; min-width: 3.4ch; }
+.count small { font-family: var(--body); font-size: .8rem; color: var(--muted); display: block; line-height: 1; }
+#chosen { flex: 1 1 200px; min-width: 0; font-size: .9rem; color: var(--muted); }
+#prenom { flex: 1 1 150px; min-width: 0; }
+#send { font: inherit; font-weight: 600; background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 10px 20px; cursor: pointer; }
+#send:disabled { opacity: .4; cursor: not-allowed; }
+#msg { flex-basis: 100%; font-size: .9rem; margin: 0; }
+#msg.err { color: var(--danger); }
+#thanks { max-width: 56ch; padding-block: 24px; }
+#thanks h2 { font-family: var(--display); font-weight: 500; font-size: 2rem; margin: 0 0 8px; }
+#fbText { width: 100%; font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; resize: vertical; }
+.ghost { font: inherit; background: none; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+</style>
+
+</head>
+<body>
+<main>
+  <div id="form">
+    <header>
+      <h1>Qualités humaines</h1>
+      <p class="lead">Ludovic Inard effectue un bilan de compétences. Pour cela, choisis <b>5 qualités</b> qui le définissent en général, dans la vie professionnelle comme personnelle.</p>
+      <ol class="steps">
+        <li><b>Touche un mot</b> pour le choisir. Tu en choisis 5 au maximum.</li>
+        <li><b>Touche × </b>pour barrer un mot qui ne convient pas. C’est facultatif.</li>
+        <li><b>Écris ton prénom</b> en bas, puis touche « Valider ».</li>
+      </ol>
+      <p class="note">Une qualité est une manière d’être, une attitude dans les relations avec les autres.</p>
+    </header>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Chercher un mot" aria-label="Chercher un mot">
+      <label class="chk"><input id="hideOff" type="checkbox"> Masquer les mots barrés</label>
+    </div>
+    <div id="grid"></div>
+  </div>
+  <section id="thanks" hidden>
+    <h2>Merci !</h2>
+    <p id="thanksOk">Ta réponse est envoyée à Ludovic. Tu peux fermer cette page.</p>
+    <div id="fallback" hidden>
+      <p>L’envoi automatique n’a pas fonctionné. Copie ce texte et envoie-le à Ludovic par message ou par email.</p>
+      <textarea id="fbText" rows="4" readonly aria-label="Texte à envoyer"></textarea>
+      <p><button class="ghost" id="copy" type="button">Copier le texte</button></p>
+    </div>
+    <button class="ghost" id="again" type="button">Répondre une autre fois</button>
+  </section>
+</main>
+
+<div id="bar">
+  <div class="in">
+    <div class="count" aria-live="polite"><span id="n">0</span>/5<small>choisies</small></div>
+    <div id="chosen">Aucune qualité choisie.</div>
+    <input id="prenom" type="text" placeholder="Ton prénom" autocomplete="given-name" aria-label="Ton prénom">
+    <button id="send" type="button" disabled>Valider</button>
+    <p id="msg" role="status" hidden></p>
+  </div>
+</div>
+
+<script>
+const WORDS = ["**Choisissez 5 qualités qui vous définissent le mieux (pour vous),**", "**Demandez idéalement à environ 10/15 personnes autour de vous (pro et perso) d’en choisir 5 également qui vous définissent en général (sans se limiter au professionnel).**", "Accessible", "Accueillant (e)", "Adroit(e)", "Agréable", "Aidant(e)", "Aimable", "Altruiste", "Ambitieux (euse)", "Amusant(e)", "Apaisant(e)", "Résilient(e)", "Appliqué(e)", "Assertif(ive)", "Astucieux(euse)", "Attachant", "Attentif(ive)", "Attentionné(e)", "Audacieux(euse)", "Autonome", "Avenant(e)", "Aventureux(euse)", "Beau(belle!)", "Bienveillant(e)", "Brillant(e)", "Calme", "Captivant(e)", "Chaleureux", "Charismatique", "Charmant(e)", "Combatif(ive)", "Communicatif(ive)", "Compréhensif(ive)", "Concentré (capacité à être)", "Conciliant(e)", "Confiant(e)", "Consciencieux", "Constant", "Convaincant(e)", "Coopératif(ive)", "Courageux(euse)", "Courtois(e)", "Créatif(ive)", "Cultivé(e)", "Curieux(euse)", "Débrouillard(e)", "Décidé(e)", "Délicat(e)", "Déterminé(e)", "Dévoué(e)", "Digne de confiance", "Diplomate", "Direct(e)", "Discipliné(e)", "Discret(e)", "Disert(e)", "Disponible", "Doux(ouce)", "Droit(e)", "Drôle", "Dynamique", "Ecoute (à l’)", "Efficace", "Eloquent(e)", "Empathique", "Encourageant(e)", "Endurant(e)", "Energique", "Engagé", "Enthousiaste", "Entreprenant", "Epanoui(e)", "Equitable", "Esprit d’équipe", "Exemplaire", "Extraverti(e)", "Ferme", "Fidèle", "Fin(e)", "Flexible", "Fort(e)", "Franc(he)", "Gai(e)", "Généreux(euse)", "Gentil(le)", "Habile", "Hardi(e)", "Honnête", "Humain(e)", "Humble", "Imaginatif(ive)", "Impliqué(e)", "Indépendant(e)", "Indulgent(e)", "Infatigable", "Influent(e)", "Ingénieux(euse)", "Innovateur(trice)", "Inspiré(e)", "Intelligent(e)", "Intègre", "Intuitif(ive)", "Inventif(ive)", "Joueur(euse)", "Jovial(e)", "Juste", "Leader", "Logique", "Loyal(e)", "Lucide", "Maître de soi", "Malin(igne)", "Marrant(e)", "Méthodique", "Mignon(ne)", "Minutieux(euse)", "Modeste", "Motivé(e)", "Naturel(le)", "Novateur(trice)", "Nuancé(e)", "Objectif(ive)", "Observateur(trice)", "Obstiné(e)", "Opiniâtre", "Optimiste", "Ordonné(e)", "Organisateur(trice)", "Organisé(e)", "Original(e)", "Ouvert(e) d’esprit", "Pacificateur(trice)", "Paisible", "Passionnant(e)", "Patient(e)", "Persévérant(e)", "Perspicace", "Persuasif(ive)", "Pétillant(e)", "Philosophe", "Planificateur(trice)", "Poli(e)", "Polyvalent(e)", "Ponctuel(le)", "Pondéré(e)", "Posé(e)", "Positif(ive)", "Pragmatique", "Pratique", "Précis(e)", "Prévenant(e)", "Prévoyant(e)", "Productif(ive)", "Protecteur(trice)", "Prudent(e)", "Pugnace", "Puissant(e)", "Raisonnable", "Rassurant(e)", "Rationnel(le)", "Réaliste", "Réconfortant(e)", "Réfléchi(e)", "Réservé(e)", "Résistant(e)", "Résolu(e)", "Respectueux(euse)", "Responsable", "Rigolo(te)", "Rigoureux(euse)", "Rusé(e)", "Sage", "Séduisant(e)", "Sensible", "Serein(e)", "Sérieux(euse)", "Serviable", "Sexy", "Sincère", "Sociable", "Social(e)", "Soigneux(euse)", "Solaire", "Solide", "Souple", "Souriant(e)", "Spontané(e)", "Sportif(ive)", "Stable", "Stratège", "Studieux(euse)", "Sûr(e) de soi", "Sympathique", "Talentueux(euse)", "Tempéré(e)", "Tenace", "Tendre", "Tolérant(e)", "Tranquille", "Travailleur(euse)", "Vaillant(e)", "Valeureux(euse)", "Vif(ive)", "Vigilant(e)", "Visionnaire", "Volontaire", "Vrai(e)", "Winner(winneuse)", "Zen"];
+const MAX = 5;
+const state = new Map(); // mot -> "on" | "off"
+const $ = id => document.getElementById(id);
+const grid = $("grid"), els = new Map();
+
+WORDS.forEach(w => {
+  const d = document.createElement("div"); d.className = "w";
+  const p = document.createElement("button"); p.type = "button"; p.className = "pick"; p.textContent = w;
+  const x = document.createElement("button"); x.type = "button"; x.className = "x"; x.textContent = "×";
+  x.setAttribute("aria-label", "Barrer " + w);
+  p.addEventListener("click", () => {
+    const s = state.get(w);
+    if (s === "on") state.delete(w);
+    else if (s === "off") state.delete(w);
+    else if (count() < MAX) state.set(w, "on");
+    render();
+  });
+  x.addEventListener("click", () => {
+    const s = state.get(w);
+    if (s === "off") state.delete(w); else state.set(w, "off");
+    render();
+  });
+  d.append(p, x); grid.append(d); els.set(w, d);
+});
+
+const count = () => [...state.values()].filter(v => v === "on").length;
+const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+function render() {
+  const n = count(), full = n >= MAX, q = norm($("q").value.trim()), hide = $("hideOff").checked;
+  els.forEach((d, w) => {
+    const s = state.get(w);
+    d.classList.toggle("on", s === "on");
+    d.classList.toggle("off", s === "off");
+    d.classList.toggle("full", full);
+    d.querySelector(".pick").setAttribute("aria-pressed", s === "on");
+    d.hidden = (q && !norm(w).includes(q)) || (hide && s === "off");
+  });
+  $("n").textContent = n;
+  const chosen = [...state].filter(([, v]) => v === "on").map(([k]) => k);
+  $("chosen").textContent = chosen.length ? chosen.join(" · ") : "Aucune qualité choisie.";
+  $("send").disabled = !(n === MAX && $("prenom").value.trim());
+}
+$("q").addEventListener("input", render);
+$("hideOff").addEventListener("change", render);
+$("prenom").addEventListener("input", render);
+
+function say(t, err) { const m = $("msg"); m.textContent = t; m.className = err ? "err" : ""; m.hidden = !t; }
+function showThanks(on) { $("form").hidden = on; $("thanks").hidden = !on; $("bar").hidden = on; }
+
+const WEB3FORMS_KEY = "24a402e3-1048-446c-bc9f-a9eaa0859123";
+const chosenList = () => [...state].filter(([, v]) => v === "on").map(([k]) => k);
+const recap = () => "Qualités de Ludovic Inard choisies par " + $("prenom").value.trim() + " : " + chosenList().join(", ");
+
+function showFallback() {
+  $("fbText").value = recap();
+  $("fallback").hidden = false;
+  $("thanksOk").hidden = true;
+  showThanks(true);
+}
+
+$("send").addEventListener("click", async () => {
+  const btn = $("send"); btn.disabled = true; say("Envoi en cours…");
+  if (WEB3FORMS_KEY.startsWith("REMPLACER")) { say(""); showFallback(); return; }
+  try {
+    const r = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "Qualités humaines : " + $("prenom").value.trim(),
+        from_name: "Formulaire qualités humaines",
+        prenom: $("prenom").value.trim(),
+        qualites: chosenList().join(", "),
+        date: new Date().toISOString(),
+        botcheck: ""
+      })
+    });
+    const j = await r.json();
+    if (!r.ok || !j.success) throw new Error("envoi");
+    say("");
+    try { localStorage.setItem("qh-done", "1"); } catch (e) {}
+    $("fallback").hidden = true; $("thanksOk").hidden = false;
+    showThanks(true);
+  } catch (e) {
+    say(""); showFallback();
+  }
+});
+$("copy").addEventListener("click", async () => {
+  const ta = $("fbText");
+  try { await navigator.clipboard.writeText(ta.value); $("copy").textContent = "Copié"; }
+  catch (e) { ta.focus(); ta.select(); $("copy").textContent = "Texte sélectionné, copie-le"; }
+});
+$("again").addEventListener("click", () => { state.clear(); $("prenom").value = ""; showThanks(false); render(); });
+
+try { if (localStorage.getItem("qh-done")) showThanks(true); } catch (e) {}
+render();
+</script>
+</body>
+</html>
